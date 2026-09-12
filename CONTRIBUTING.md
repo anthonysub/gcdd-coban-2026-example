@@ -48,3 +48,5 @@ Este repositorio está configurado para trabajar con el **GitHub Copilot coding 
 1. Asigna una tarea/issue al agente de Copilot para que proponga los cambios y abra el Pull Request automáticamente.
 2. Solicita una revisión de código automática de Copilot sobre el Pull Request antes de fusionarlo.
 3. Una vez aprobado, el PR se fusiona a `develop` (o `main`/`develop` si es un `release/*` o `hotfix/*`).
+
+El workflow [`.github/workflows/copilot-review.yml`](.github/workflows/copilot-review.yml) solicita automáticamente una revisión de Copilot cada vez que se abre o reabre un Pull Request, sin necesidad de pedirlo manualmente.
