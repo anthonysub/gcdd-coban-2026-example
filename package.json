@@ -1,0 +1,14 @@
+{
+  "name": "ruleta-sorteos",
+  "version": "1.0.0",
+  "description": "Aplicativo de ruleta para rifas y sorteos con configuraciones personalizables",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

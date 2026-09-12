@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎡 Ruleta de Sorteos</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>🎡 Ruleta de Sorteos</h1>
+    <p>Crea rifas, configura sus reglas y gira la ruleta para elegir ganadores</p>
+  </header>
+
+  <main class="layout">
+    <!-- ---------- Panel lateral: rifas ---------- -->
+    <aside class="panel raffles-panel">
+      <h2>Rifas</h2>
+      <div class="new-raffle">
+        <input id="newRaffleName" type="text" placeholder="Nombre de la nueva rifa" />
+        <button id="btnCreateRaffle" class="btn btn-primary">+ Crear</button>
+      </div>
+      <ul id="raffleList" class="raffle-list"></ul>
+    </aside>
+
+    <!-- ---------- Centro: ruleta ---------- -->
+    <section class="panel wheel-panel">
+      <h2 id="currentRaffleName">Selecciona o crea una rifa</h2>
+
+      <div class="wheel-wrapper">
+        <div class="wheel-pointer">▼</div>
+        <canvas id="wheelCanvas" width="440" height="440"></canvas>
+      </div>
+
+      <button id="btnSpin" class="btn btn-spin" disabled>Girar Ruleta 🎯</button>
+
+      <div id="winnerBanner" class="winner-banner hidden"></div>
+
+      <div class="winners-history">
+        <div class="winners-header">
+          <h3>Historial de ganadores</h3>
+          <button id="btnResetWinners" class="btn btn-ghost">Limpiar historial</button>
+        </div>
+        <ol id="winnersList"></ol>
+      </div>
+    </section>
+
+    <!-- ---------- Panel derecho: configuración y participantes ---------- -->
+    <aside class="panel config-panel">
+      <h2>Configuración de la rifa</h2>
+      <form id="configForm" class="config-form">
+        <label>
+          Duración del giro (segundos)
+          <input type="number" id="cfgSpinDuration" min="2" max="20" step="1" />
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" id="cfgAllowRepeat" />
+          Permitir que un ganador pueda repetir
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" id="cfgRemoveWinner" />
+          Quitar al ganador de la ruleta tras el sorteo
+        </label>
+
+        <label>
+          Tema visual
+          <select id="cfgTheme">
+            <option value="classic">Clásico (multicolor)</option>
+            <option value="sunset">Atardecer</option>
+            <option value="ocean">Océano</option>
+            <option value="mono">Monocromo</option>
+          </select>
+        </label>
+
+        <button type="submit" class="btn btn-primary">Guardar configuración</button>
+      </form>
+
+      <hr />
+
+      <h3>Participantes</h3>
+      <div class="add-participant">
+        <input id="participantName" type="text" placeholder="Nombre" />
+        <input id="participantTickets" type="number" min="1" value="1" title="Boletos / peso" />
+        <button id="btnAddParticipant" class="btn btn-secondary">Agregar</button>
+      </div>
+
+      <details class="bulk-add">
+        <summary>Agregar en bloque</summary>
+        <textarea id="bulkText" placeholder="Un participante por línea. Ej:&#10;Ana&#10;Luis,3&#10;Marta,2"></textarea>
+        <button id="btnBulkAdd" class="btn btn-secondary">Agregar lista</button>
+      </details>
+
+      <ul id="participantList" class="participant-list"></ul>
+      <button id="btnClearParticipants" class="btn btn-ghost">Vaciar participantes</button>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
