@@ -202,6 +202,12 @@ function renderWinnersList() {
   });
 }
 
+document.getElementById('btnExportCsv').addEventListener('click', () => {
+  if (!currentRaffle) return alert('Primero selecciona o crea una rifa');
+  if (currentRaffle.winners.length === 0) return alert('Todavía no hay ganadores para exportar');
+  window.location.href = `/api/raffles/${currentRaffle.id}/winners/export`;
+});
+
 document.getElementById('btnResetWinners').addEventListener('click', async () => {
   if (!currentRaffle) return;
   if (!confirm('¿Borrar el historial de ganadores?')) return;

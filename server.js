@@ -225,6 +225,34 @@ app.post('/api/raffles/:id/draw', (req, res) => {
   });
 });
 
+// Exportar historial de ganadores en formato CSV
+app.get('/api/raffles/:id/winners/export', (req, res) => {
+  const db = readDB();
+  const raffle = db.raffles[req.params.id];
+  if (!raffle) return res.status(404).json({ error: 'Rifa no encontrada' });
+
+  const escapeCsv = (value) => {
+    const str = String(value ?? '');
+    return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+  };
+
+  const header = ['Ganador', 'Fecha', 'Hora'];
+  const rows = raffle.winners.map((w) => {
+    const date = new Date(w.drawnAt);
+    return [
+      escapeCsv(w.name),
+      escapeCsv(date.toLocaleDateString('es-GT')),
+      escapeCsv(date.toLocaleTimeString('es-GT')),
+    ].join(',');
+  });
+  const csv = [header.join(','), ...rows].join('\r\n');
+
+  const safeName = raffle.name.replace(/[^a-z0-9_-]+/gi, '_').toLowerCase();
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename="ganadores_${safeName}.csv"`);
+  res.send('﻿' + csv); // BOM para que Excel detecte UTF-8 correctamente
+});
+
 // Reiniciar historial de ganadores (no restaura participantes eliminados)
 app.post('/api/raffles/:id/reset-winners', (req, res) => {
   const db = readDB();

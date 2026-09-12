@@ -91,6 +91,7 @@ gcdd-coban-2026/
 | DELETE | `/api/raffles/:id/participants/:pid` | Elimina un participante |
 | DELETE | `/api/raffles/:id/participants` | Vacía todos los participantes |
 | POST | `/api/raffles/:id/draw` | Realiza el sorteo y devuelve al ganador |
+| GET | `/api/raffles/:id/winners/export` | Descarga el historial de ganadores en formato CSV |
 | POST | `/api/raffles/:id/reset-winners` | Limpia el historial de ganadores |
 
 ## Notas
