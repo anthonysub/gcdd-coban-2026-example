@@ -15,7 +15,7 @@ Aplicativo web en Node.js para realizar rifas y sorteos mediante una ruleta inte
   - Quitar o no al ganador de la ruleta tras cada sorteo.
   - Tema visual de colores (Clásico, Atardecer, Océano, Monocromo).
 - **Sorteo trazable**: el servidor selecciona al ganador (ponderado según los boletos) y el frontend anima la ruleta hasta detenerse exactamente en esa porción.
-- **Historial de ganadores**: registro con fecha/hora de cada sorteo, con opción de limpiarlo.
+- **Historial de ganadores**: registro con fecha/hora de cada sorteo, con opción de exportarlo a CSV o limpiarlo.
 - **Persistencia**: toda la información se guarda en un archivo JSON local (`data/raffles.json`), sin necesidad de base de datos.
 
 ## Tecnologías

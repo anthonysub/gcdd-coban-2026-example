@@ -75,6 +75,7 @@ async function selectRaffle(id) {
 function clearWheelUI() {
   document.getElementById('currentRaffleName').textContent = 'Selecciona o crea una rifa';
   document.getElementById('btnSpin').disabled = true;
+  document.getElementById('btnExportWinnersCsv').disabled = true;
   document.getElementById('participantList').innerHTML = '';
   document.getElementById('winnersList').innerHTML = '';
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -85,6 +86,7 @@ function renderCurrentRaffle() {
 
   document.getElementById('currentRaffleName').textContent = currentRaffle.name;
   document.getElementById('btnSpin').disabled = currentRaffle.participants.length < 2;
+  document.getElementById('btnExportWinnersCsv').disabled = currentRaffle.winners.length === 0;
 
   // Configuración
   const c = currentRaffle.config;
@@ -201,6 +203,40 @@ function renderWinnersList() {
     list.appendChild(li);
   });
 }
+
+function toCsvCell(value) {
+  return `"${String(value).replace(/"/g, '""')}"`;
+}
+
+function exportWinnersToCsv() {
+  if (!currentRaffle) return alert('Primero selecciona o crea una rifa');
+  if (currentRaffle.winners.length === 0) return alert('No hay ganadores para exportar');
+
+  const headers = ['rifa', 'ganador', 'fecha_iso', 'hora_local'];
+  const rows = currentRaffle.winners.map((winner) => {
+    const drawnAt = new Date(winner.drawnAt);
+    return [
+      currentRaffle.name,
+      winner.name,
+      drawnAt.toISOString(),
+      drawnAt.toLocaleString(),
+    ];
+  });
+  const csv = [headers, ...rows].map((row) => row.map(toCsvCell).join(',')).join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  const fileSafeName = currentRaffle.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'rifa';
+  link.href = url;
+  link.download = `historial-ganadores-${fileSafeName}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('btnExportWinnersCsv').addEventListener('click', exportWinnersToCsv);
 
 document.getElementById('btnResetWinners').addEventListener('click', async () => {
   if (!currentRaffle) return;
